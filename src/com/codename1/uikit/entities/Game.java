@@ -11,6 +11,15 @@ package com.codename1.uikit.entities;
 public class Game {
     private int id;
     private String image,name,description;
+    private boolean isLiked;
+
+    public void setIsLiked(boolean isLiked) {
+        this.isLiked = isLiked;
+    }
+
+    public boolean isIsLiked() {
+        return isLiked;
+    }
 
     public Game() {
     }
