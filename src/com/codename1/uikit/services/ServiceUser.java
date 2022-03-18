@@ -9,6 +9,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.uikit.MyApplication;
 import com.codename1.uikit.utils.Statics;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.codename1.uikit.entities.User;
+import com.codename1.uikit.gui.LoginForm;
 
 /**
  *
@@ -111,8 +113,10 @@ public class ServiceUser {
 
     public ArrayList<User> getAllUsers() {
         String url = Statics.BASE_URL + "/api/users";
+        req.removeAllArguments();
         req.setUrl(url);
         req.setPost(false);
+        req.setHttpMethod("GET");
         req.setFailSilently(true);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -127,8 +131,10 @@ public class ServiceUser {
 
     public void loginUser(String username, String password) {
         String url = Statics.BASE_URL + "/api/login";
+        req.removeAllArguments();
         req.setUrl(url);
         req.setPost(true);
+        req.setHttpMethod("POST");
         req.addArgument("username", username);
         req.addArgument("password", password);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -146,8 +152,10 @@ public class ServiceUser {
     
     public boolean registerUser(String username, String password, String confirmPassword, String email) {
         String url = Statics.BASE_URL + "/api/register";
+        req.removeAllArguments();
         req.setUrl(url);
         req.setPost(true);
+        req.setHttpMethod("POST");
         req.addArgument("username", username);
         req.addArgument("password", password);
         req.addArgument("confirmPassword", confirmPassword);
@@ -164,5 +172,51 @@ public class ServiceUser {
 
         NetworkManager.getInstance().addToQueueAndWait(req);
         return isRegistred;
+    }
+    
+    public boolean deleteUser(String username) {
+        String url = Statics.BASE_URL + "/api/user";
+        req.removeAllArguments();
+        req.setUrl(url);
+        req.setPost(false);
+        req.setHttpMethod("DELETE");
+        req.addArgument("username", username);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                if (req.getResponseCode() == 200) {
+                    MyApplication.loggedUser = new User();
+                    Form p1 = new LoginForm();
+                    p1.show();
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return isRegistred;
+    }
+    
+    public void updateUser(String username,String email, String name, String secondName) {
+        String url = Statics.BASE_URL + "/api/user";
+        req.removeAllArguments();
+        req.setUrl(url);
+        req.setPost(true);
+        req.setHttpMethod("POST");
+        req.addArgument("username", username);
+        req.addArgument("email", email);
+        req.addArgument("name", name);
+        req.addArgument("secondName", secondName);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                if (req.getResponseCode() == 200) {
+                    MyApplication.loggedUser.setEmail(email);
+                    MyApplication.loggedUser.setName(name);
+                    MyApplication.loggedUser.setSecondName(secondName);
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
     }
 }

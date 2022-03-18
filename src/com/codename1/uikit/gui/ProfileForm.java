@@ -14,6 +14,7 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Stroke;
 import com.codename1.ui.TextField;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.geom.Dimension;
@@ -22,8 +23,10 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
+import com.codename1.ui.plaf.RoundBorder;
 import com.codename1.ui.plaf.Style;
 import com.codename1.uikit.MyApplication;
+import com.codename1.uikit.services.ServiceUser;
 
 /**
  *
@@ -70,14 +73,40 @@ public class ProfileForm extends BaseForm {
         TextField email = new TextField(MyApplication.loggedUser.getEmail(), "E-Mail", 20, TextField.EMAILADDR);
         addStringValue("E-Mail", email);
         
-        TextField password = new TextField("", "Password", 10, TextField.PASSWORD);
-        addStringValue("Password", password);
-        
+        TextField updated = new TextField();
+        updated.getAllStyles().setFgColor(0x008000);
         
         Button submitBtn = new Button("Update");
+        Button updatePassBtn = new Button("Update Password");
+        Button deleteBtn = new Button("Delete");
+        deleteBtn.getAllStyles().setBorder(RoundBorder.create().
+        rectangle(true).
+        color(0xFF0000).
+        strokeColor(0).
+        strokeOpacity(120).
+        stroke(new Stroke(2, Stroke.CAP_SQUARE, Stroke.JOIN_MITER, 1)));
+        deleteBtn.getAllStyles().setFgColor(0xffffff);
+        submitBtn.getAllStyles().setBorder(RoundBorder.create().
+        rectangle(true).
+        color(0x228B22).
+        strokeColor(0).
+        strokeOpacity(120).
+        stroke(new Stroke(2, Stroke.CAP_SQUARE, Stroke.JOIN_MITER, 1)));
+        submitBtn.getAllStyles().setFgColor(0xffffff);
         Container passCn = new Container(BoxLayout.xCenter());
-        passCn.add(submitBtn);
+        passCn.addAll(submitBtn, updatePassBtn, deleteBtn);
+        add(updated);
         add(passCn);
+        
+        deleteBtn.addActionListener(l->{
+            ServiceUser.getInstance().deleteUser(MyApplication.loggedUser.getUsername());
+        });
+        
+        submitBtn.addActionListener(l->{
+            ServiceUser.getInstance().updateUser(MyApplication.loggedUser.getUsername(), email.getText(), name.getText(), secondName.getText());
+            updated.setText("Updated Succesfully!");
+            
+        });
     }
     
     private void addStringValue(String s, Component v) {
