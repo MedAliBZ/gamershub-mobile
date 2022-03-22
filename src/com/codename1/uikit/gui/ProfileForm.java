@@ -73,7 +73,7 @@ public class ProfileForm extends BaseForm {
         TextField email = new TextField(MyApplication.loggedUser.getEmail(), "E-Mail", 20, TextField.EMAILADDR);
         addStringValue("E-Mail", email);
         
-        TextField updated = new TextField();
+        Label updated = new Label();
         updated.getAllStyles().setFgColor(0x008000);
         
         Button submitBtn = new Button("Update");
@@ -106,6 +106,11 @@ public class ProfileForm extends BaseForm {
             ServiceUser.getInstance().updateUser(MyApplication.loggedUser.getUsername(), email.getText(), name.getText(), secondName.getText());
             updated.setText("Updated Succesfully!");
             
+        });
+        
+        updatePassBtn.addActionListener(l->{
+            Form updat = new UpdatePasswordForm(this);
+            updat.show();
         });
     }
     

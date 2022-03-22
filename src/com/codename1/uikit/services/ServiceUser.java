@@ -85,6 +85,7 @@ public class ServiceUser {
             user.setUsername(usersListJson.get("username").toString());
             user.setSecondName(usersListJson.get("secondName") == null ? "" : usersListJson.get("secondName").toString());
             user.setEmail(usersListJson.get("email").toString());
+            user.setIsAdmin(Boolean.parseBoolean(usersListJson.get("isAdmin").toString()));
             MyApplication.loggedUser = user;
         } catch (IOException ex) {
             System.out.println(ex);
@@ -213,6 +214,30 @@ public class ServiceUser {
                     MyApplication.loggedUser.setEmail(email);
                     MyApplication.loggedUser.setName(name);
                     MyApplication.loggedUser.setSecondName(secondName);
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    }
+    
+    public void updateUserPassword(String oldPassword, String newPassword) {
+        String url = Statics.BASE_URL + "/api/user/password";
+        req.removeAllArguments();
+        req.setUrl(url);
+        req.setPost(true);
+        req.setHttpMethod("POST");
+        req.addArgument("username", MyApplication.loggedUser.getUsername());
+        req.addArgument("oldPassword", oldPassword);
+        req.addArgument("newPassword", newPassword);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                if (req.getResponseCode() != 200) {
+                    MyApplication.loggedUser.setError("Wrong password.");
+                }
+                else if (req.getResponseCode() == 200){
+                    MyApplication.loggedUser.setError("");
                 }
                 req.removeResponseListener(this);
             }

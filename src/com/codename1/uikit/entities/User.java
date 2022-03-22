@@ -13,6 +13,15 @@ public class User {
     private String username, email, name, secondName;
     private String birthdate;
     private String error; 
+    private boolean isAdmin;
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public boolean isIsAdmin() {
+        return isAdmin;
+    }
 
     public void setError(String error) {
         this.error = error;
