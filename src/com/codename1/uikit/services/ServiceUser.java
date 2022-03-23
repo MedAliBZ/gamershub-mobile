@@ -244,4 +244,14 @@ public class ServiceUser {
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
+    
+    public void resetPassword(String email) {
+        String url = Statics.BASE_URL + "/reset-password/api";
+        req.removeAllArguments();
+        req.setUrl(url);
+        req.setPost(false);
+        req.setHttpMethod("GET");
+        req.addArgument("email", email);
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    }
 }

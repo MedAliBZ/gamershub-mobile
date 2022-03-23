@@ -28,16 +28,16 @@ public class LoginForm extends BaseForm {
     public LoginForm() {
         super(new BorderLayout());
         current = this;
-        if(!Display.getInstance().isTablet()) {
-            BorderLayout bl = (BorderLayout)getLayout();
+        if (!Display.getInstance().isTablet()) {
+            BorderLayout bl = (BorderLayout) getLayout();
             bl.defineLandscapeSwap(BorderLayout.NORTH, BorderLayout.EAST);
             bl.defineLandscapeSwap(BorderLayout.SOUTH, BorderLayout.CENTER);
         }
-        
+
         setUIID("SignIn");
-        
+
         add(BorderLayout.NORTH, new Label(MyApplication.theme.getImage("logo.png"), "LogoLabel"));
-        
+
         TextField username = new TextField("", "Username", 20, TextField.ANY);
         TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
         Button signIn = new Button("Sign In");
@@ -50,7 +50,10 @@ public class LoginForm extends BaseForm {
         Container errorContainer = new Container(BoxLayout.xCenter());
         errorLabel.getAllStyles().setFgColor(0xcf0000);
         errorContainer.add(errorLabel);
-        
+        Button resetPassBtn = new Button("Frogot Password ?");
+        resetPassBtn.setUIID("Link");
+        resetPassBtn.addActionListener(l -> new ResetPasswordForm(current).show());
+
         Container content = BoxLayout.encloseY(
                 username,
                 createLineSeparator(),
@@ -58,7 +61,8 @@ public class LoginForm extends BaseForm {
                 createLineSeparator(),
                 errorContainer,
                 signIn,
-                FlowLayout.encloseCenter(doneHaveAnAccount, signUp)
+                FlowLayout.encloseCenter(doneHaveAnAccount, signUp),
+                FlowLayout.encloseCenter(resetPassBtn)
         );
         content.setScrollableY(false);
         add(BorderLayout.CENTER, content);
