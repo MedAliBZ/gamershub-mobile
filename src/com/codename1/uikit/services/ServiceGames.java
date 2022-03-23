@@ -89,6 +89,7 @@ public class ServiceGames {
         req.removeAllArguments();
         req.setUrl(url);
         req.setPost(false);
+        req.setHttpMethod("GET");
         req.setFailSilently(true);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -152,6 +153,16 @@ public class ServiceGames {
             }
         });
 
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    }
+    
+    public void deleteGame(String name) {
+        String url = Statics.BASE_URL + "/api/game/delete";
+        req.removeAllArguments();
+        req.setUrl(url);
+        req.setPost(false);
+        req.setHttpMethod("DELETE");
+        req.addArgument("gameName", name);
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
 

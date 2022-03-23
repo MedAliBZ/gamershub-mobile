@@ -37,6 +37,12 @@ public class GameForm extends Form {
         this.setUIID("Activate");
         game = ServiceGames.getInstance().getGame(MyApplication.loggedUser.getUsername(), game.getName());
         this.game = game;
+        if(MyApplication.loggedUser.isIsAdmin()){
+            getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_DELETE, e-> {
+                ServiceGames.getInstance().deleteGame(this.game.getName());
+                new ListGamesForm().show();
+            });
+        }
         try {
             EncodedImage spinner = EncodedImage.create("/spinner.png");
             Container imageContainer = new Container(BoxLayout.xCenter());
