@@ -42,6 +42,9 @@ public class GameForm extends Form {
                 ServiceGames.getInstance().deleteGame(this.game.getName());
                 new ListGamesForm().show();
             });
+            getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_EDIT, e -> {
+                new UpdateGameForm(this.game, previous).show();
+            });
         }
         try {
             EncodedImage spinner = EncodedImage.create("/spinner.png");

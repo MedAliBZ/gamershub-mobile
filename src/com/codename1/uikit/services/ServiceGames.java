@@ -102,6 +102,25 @@ public class ServiceGames {
         return games;
     }
     
+    public ArrayList<Game> getAllLikedGames() {
+        String url = Statics.BASE_URL + "/api/likedGames";
+        req.removeAllArguments();
+        req.setUrl(url);
+        req.setPost(false);
+        req.setHttpMethod("GET");
+        req.addArgument("username", MyApplication.loggedUser.getUsername());
+        req.setFailSilently(true);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                games = parseGames(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return games;
+    }
+    
     public Game getGame(String username, String gameName) {
         String url = Statics.BASE_URL + "/api/game";
         req.removeAllArguments();

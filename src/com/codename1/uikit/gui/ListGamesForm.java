@@ -7,6 +7,7 @@ package com.codename1.uikit.gui;
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -27,13 +28,33 @@ public class ListGamesForm extends BaseForm {
 
     public ListGamesForm() {
         super.addSideMenu();
+        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_FAVORITE_OUTLINE, e -> {
+            new ListGamesForm(ServiceGames.getInstance().getAllLikedGames()).show();
+        });
+        if (MyApplication.loggedUser.isIsAdmin()) {
+            getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
+                new UpdateGameForm(new Game(), this).show();
+            });
+        }
         setTitle("Games List");
         setUIID("Activate");
         ArrayList<Game> gamesList = ServiceGames.getInstance().getAllGames();
-        for(Game g : gamesList){
+        for (Game g : gamesList) {
             this.add(this.addGamesHolder(g));
         }
         //getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
+    }
+
+    public ListGamesForm(ArrayList<Game> likedGames) {
+        super.addSideMenu();
+        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_FAVORITE, e -> {
+            new ListGamesForm().show();
+        });
+        setTitle("Liked Games List");
+        setUIID("Activate");
+        for (Game g : likedGames) {
+            this.add(this.addGamesHolder(g));
+        }
     }
 
     private Container addGamesHolder(Game g) {
@@ -42,8 +63,8 @@ public class ListGamesForm extends BaseForm {
             Container holderContainer = new Container(BoxLayout.x());
             Container detailsContainer = new Container(BoxLayout.y());
             Container titleContainer = new Container(BoxLayout.x());
-            String url = Statics.BASE_URL+"/games/images/"+g.getImage();
-            Image gameImage = URLImage.createToStorage(spinner, url, url,URLImage.RESIZE_SCALE);
+            String url = Statics.BASE_URL + "/games/images/" + g.getImage();
+            Image gameImage = URLImage.createToStorage(spinner, url, url, URLImage.RESIZE_SCALE);
             ImageViewer image = new ImageViewer(gameImage);
             Label lbTitle = new Label(g.getName());
             Label lDescription = new Label(g.getDescription());
@@ -56,11 +77,9 @@ public class ListGamesForm extends BaseForm {
             holderContainer.addAll(image, detailsContainer);
             holderContainer.setLeadComponent(image);
             return holderContainer;
-        } 
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             System.err.println(e.getMessage());
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.err.println(e);
         }
         return new Container(BoxLayout.x());
