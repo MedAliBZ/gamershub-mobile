@@ -20,6 +20,7 @@ package com.codename1.uikit.gui;
 
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Component;
+import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -68,14 +69,7 @@ public class BaseForm extends Form {
 
     protected void addSideMenu() {
         Toolbar tb = getToolbar();
-        Image img = MyApplication.theme.getImage("profile-background.jpg");
-        /*if(img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
-            img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
-        }*/
         tb.setSafeArea(false);
-        ScaleImageLabel sl = new ScaleImageLabel(img);
-        sl.setUIID("BottomPad");
-        sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         String url = "https://avatars.dicebear.com/api/bottts/" + MyApplication.loggedUser.getUsername() + ".png";
         try {
             EncodedImage spinner = EncodedImage.create("/spinner.png");

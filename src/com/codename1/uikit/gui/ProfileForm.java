@@ -77,7 +77,7 @@ public class ProfileForm extends BaseForm {
         updated.getAllStyles().setFgColor(0x008000);
         
         Button submitBtn = new Button("Update");
-        Button updatePassBtn = new Button("Update Password");
+        Button updatePassBtn = new Button("Update Pass");
         Button deleteBtn = new Button("Delete");
         deleteBtn.getAllStyles().setBorder(RoundBorder.create().
         rectangle(true).

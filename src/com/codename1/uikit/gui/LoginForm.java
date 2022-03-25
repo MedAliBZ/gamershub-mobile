@@ -50,7 +50,7 @@ public class LoginForm extends BaseForm {
         Container errorContainer = new Container(BoxLayout.xCenter());
         errorLabel.getAllStyles().setFgColor(0xcf0000);
         errorContainer.add(errorLabel);
-        Button resetPassBtn = new Button("Frogot Password ?");
+        Button resetPassBtn = new Button("Forgot Password ?");
         resetPassBtn.setUIID("Link");
         resetPassBtn.addActionListener(l -> new ResetPasswordForm(current).show());
 

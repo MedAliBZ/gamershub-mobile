@@ -96,11 +96,15 @@ public class UpdateGameForm extends Form {
                     }
                 }, Display.GALLERY_IMAGE
                 );
-
             });
 
             descriptionContainer.addAll(new Label("Description"), descriptionTA);
             titleContainer.addAll(new Label("Title"), titleTA);
+            
+            submitBtn.addActionListener(e->{
+                ServiceGames.getInstance().addGame(titleTA.getText(), fileSavePath, descriptionTA.getText());
+                new ListGamesForm().show();
+            });
             this.addAll(imageField, selectImage, titleContainer, descriptionContainer, submitBtn);
         }
         this.setLayout(BoxLayout.y());
