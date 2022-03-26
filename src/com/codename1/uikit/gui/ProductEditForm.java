@@ -30,18 +30,15 @@ import java.util.StringTokenizer;
  *
  * @author meriam
  */
-public class AddProductForm extends Form {
+public class ProductEditForm extends Form {
 
-    String ch;
-
-    public AddProductForm(Form previous) {
+    public ProductEditForm(Products product, Form previous) {
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
-        setTitle("Add Product");
+        setTitle("Edit Product");
         setLayout(BoxLayout.y());
         this.setUIID("Activate");
         TextField tfName = new TextField("", "Product Name");
         TextField tfDes = new TextField("", "Product Description");
-        //TextField tfCatID = new TextField("", "Category ID");
         TextField tfPrice = new TextField("", "Price");
         TextField tfQuantityStocked = new TextField("", "Quantity in stock");
 //combo 
@@ -52,38 +49,23 @@ public class AddProductForm extends Form {
         Label CategoryLabel = new Label("Category");
 
         ComboBox categoryBox = new ComboBox();
-       
+
         for (int i = 0; i < category.size(); i++) {
             Categories c = category.get(i);
             categoryBox.addItem(c.getId() + "," + c.getNameCategory());
         }
-       // System.out.println(categoryBox.getSelectedItem().toString());
-                Container comboCtn = new Container(new BoxLayout(BoxLayout.X_AXIS));
-             comboCtn.addAll(CategoryLabel,categoryBox);
-        //upload image
-        Label imageLabel = new Label("Image");
-        Button selectImage = new Button("Select");
-        TextField imageField = new TextField("", "Select picture", 10, TextArea.ANY);
-        imageField.setEditable(false);
+        // System.out.println(categoryBox.getSelectedItem().toString());
 
-        selectImage.addActionListener((evt) -> {
-            Display.getInstance().openGallery((e) -> {
-                if (e != null && e.getSource() != null) {
-                    String filePath = (String) e.getSource();
-                    imageField.setText(filePath.substring(filePath.lastIndexOf('/') + 1));
-                    ch = filePath;
-                }
-            }, Display.GALLERY_IMAGE
-            );
+        tfName.setText(product.getNameProduct());
+        tfPrice.setText(product.getPrice() + "");
+        tfQuantityStocked.setText(product.getQuantityStocked() + "");
+        tfDes.setText(product.getDescription());
 
-        }
-        );
+//fix this 
+        categoryBox.setSelectedItem(product.getCategoryId());
 
-        Container photoContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
-
-        photoContainer.add(imageLabel);
-        photoContainer.add(imageField);
-        photoContainer.add(selectImage);
+        Container comboCtn = new Container(new BoxLayout(BoxLayout.X_AXIS));
+        comboCtn.addAll(CategoryLabel, categoryBox);
 
         Button btnSubmit = new Button("Submit");
 
@@ -91,24 +73,18 @@ public class AddProductForm extends Form {
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if ((tfName.getText().length() == 0) || (tfDes.getText().length() == 0) || (imageField.getText().length() == 0)
+                if ((tfName.getText().length() == 0) || (tfDes.getText().length() == 0)
                         || (tfPrice.getText().length() == 0) || (tfQuantityStocked.getText().length() == 0)) {
                     Dialog.show("Alert", "please fill all the Fields", new Command("ok"));
                 } else {
 
                     Products c = new Products();
-                    // c.setCategoryId(Integer.parseInt(tfCatID.getText()));
                     String catId = categoryBox.getSelectedItem().toString();
-                    //int catId1=Integer.parseInt(catId.split(",",0));
-
-                    //System.out.println(catId.split(","));
-                    StringTokenizer st = new StringTokenizer(catId,",");
-
-                    //System.out.println(st.nextToken());
+                 
+                    StringTokenizer st = new StringTokenizer(catId, ",");
 
                     c.setCategoryId(Integer.parseInt(st.nextToken()));
                     c.setDescription(tfDes.getText());
-                    c.setImage(ch);
                     c.setNameProduct(tfName.getText());
                     c.setPrice(Double.parseDouble(tfPrice.getText()));
                     c.setQuantityStocked(Integer.parseInt(tfQuantityStocked.getText()));
@@ -125,7 +101,7 @@ public class AddProductForm extends Form {
 
         }
         );
-        addAll(tfName, tfDes, photoContainer, tfPrice, tfQuantityStocked, comboCtn, btnSubmit);
+        addAll(tfName, tfDes, tfPrice, tfQuantityStocked, comboCtn, btnSubmit);
 
     }
 

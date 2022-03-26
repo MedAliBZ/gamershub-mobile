@@ -47,17 +47,17 @@ public class ProductForm extends Form {
         //System.out.println("this is the detail category"+category);
 
         this.product = product;
- if (MyApplication.loggedUser.isIsAdmin()) {
-        
-        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_EDIT, e -> {
-            //Form editForm = new ProductEditForm(this.product, this);
-            // editForm.show();
-        });
-        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_DELETE, e -> {
-            ServiceProducts.getInstance().deleteProduct(this.product.getId());
-            new ListProductsForm().show();
-        });
-}
+        if (MyApplication.loggedUser.isIsAdmin()) {
+
+            getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_EDIT, e -> {
+                //Form editForm = new ProductEditForm(this.product, this);
+                // editForm.show();
+            });
+            getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_DELETE, e -> {
+                ServiceProducts.getInstance().deleteProduct(this.product.getId());
+                new ListProductsForm().show();
+            });
+        }
         try {
             EncodedImage spinner = EncodedImage.create("/spinner.png");
             Container imageContainer = new Container(BoxLayout.xCenter());
@@ -69,15 +69,43 @@ public class ProductForm extends Form {
             gameImage = gameImage.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
             ImageViewer image = new ImageViewer(gameImage);
             imageContainer.setHeight(Display.getInstance().getDisplayHeight() / 3);
+
             TextArea descriptionTA = new TextArea(product.getDescription());
+            TextArea tfName = new TextArea(product.getNameProduct());
+          
+            TextArea tfCatID = new TextArea(product.getCategoryId()+"");
+            TextArea tfPrice = new TextArea(product.getPrice() + "");
+            TextArea tfQuantityStocked = new TextArea(product.getQuantityStocked() + "");
+
             descriptionTA.setEditable(false);
             descriptionTA.setFocusable(false);
             descriptionTA.setUIID("Label");
             descriptionTA.getAllStyles().setAlignment(TextArea.CENTER);
+
+            tfName.setEditable(false);
+            tfName.setFocusable(false);
+            tfName.setUIID("Label");
+            tfName.getAllStyles().setAlignment(TextArea.CENTER);
+
+            tfCatID.setEditable(false);
+            tfCatID.setFocusable(false);
+            tfCatID.setUIID("Label");
+            tfCatID.getAllStyles().setAlignment(TextArea.CENTER);
+
+            tfPrice.setEditable(false);
+            tfPrice.setFocusable(false);
+            tfPrice.setUIID("Label");
+            tfPrice.getAllStyles().setAlignment(TextArea.CENTER);
+
+            tfQuantityStocked.setEditable(false);
+            tfQuantityStocked.setFocusable(false);
+            tfQuantityStocked.setUIID("Label");
+            tfQuantityStocked.getAllStyles().setAlignment(TextArea.CENTER);
+
             descriptionContainer.add(descriptionTA);
             imageContainer.add(image);
 
-            this.addAll(imageContainer, descriptionContainer);
+            this.addAll(imageContainer, descriptionContainer,tfName,tfCatID,tfPrice,tfQuantityStocked);
         } catch (IOException e) {
             System.err.println(e);
         }
