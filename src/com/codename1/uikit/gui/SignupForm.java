@@ -13,6 +13,7 @@ import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.uikit.MyApplication;
 import com.codename1.uikit.services.ServiceUser;
+import com.codename1.uikit.utils.Statics;
 
 /**
  *
@@ -39,7 +40,14 @@ public class SignupForm extends BaseForm {
         submitBtn.addActionListener(e -> {
             if (usernameField.getText() == "" || passwordField.getText() == "" || confirmPasswordField.getText() == "" || emailField.getText() == "") {
                 errorLabel.setText("All fields are required!");
-            } else {
+            }
+            else if (passwordField.getText().length()<6){
+                errorLabel.setText("Password is too weak!");
+            }
+            else if (!passwordField.getText().equals(confirmPasswordField.getText())){
+                errorLabel.setText("Passwords do not match!");
+            }
+            else {
                 if (ServiceUser.getInstance().registerUser(usernameField.getText(), passwordField.getText(), confirmPasswordField.getText(), emailField.getText())) {
                     errorLabel.setText("");
                     previous.show();

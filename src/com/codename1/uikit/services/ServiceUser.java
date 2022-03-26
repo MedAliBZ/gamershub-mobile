@@ -104,6 +104,7 @@ public class ServiceUser {
                 return false;
             }
             else{
+                user.setError("");
                 return true;
             }
         } catch (IOException ex) {

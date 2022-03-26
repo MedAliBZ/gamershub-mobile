@@ -42,7 +42,7 @@ public class UpdateGameForm extends Form {
             Container descriptionContainer = new Container(BoxLayout.y());
             Container titleContainer = new Container(BoxLayout.y());
 
-            TextArea descriptionTA = new TextArea(game.getDescription(), 9999);
+            TextArea descriptionTA = new TextArea(game.getDescription(), 10, 100);
             descriptionTA.getAllStyles().setAlignment(TextArea.CENTER);
 
             TextArea titleTA = new TextArea(game.getName(), 200);
@@ -63,6 +63,11 @@ public class UpdateGameForm extends Form {
                 }, Display.GALLERY_IMAGE
                 );
 
+            });
+            
+            submitBtn.addActionListener(e->{
+                ServiceGames.getInstance().updateGame(this.game.getId(),titleTA.getText(), fileSavePath, descriptionTA.getText());
+                new ListGamesForm().show();
             });
 
             descriptionContainer.addAll(new Label("Description"), descriptionTA);

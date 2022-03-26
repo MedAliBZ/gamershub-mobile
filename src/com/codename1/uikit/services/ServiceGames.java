@@ -196,5 +196,18 @@ public class ServiceGames {
         req.addArgument("description", description);
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
+    
+    public void updateGame(int id,String name,String image, String description) {
+        String url = Statics.BASE_URL + "/api/game/updateGame";
+        req.removeAllArguments();
+        req.setUrl(url);
+        req.setPost(true);
+        req.setHttpMethod("POST");
+        req.addArgument("gameName", name);
+        req.addArgument("image", image);
+        req.addArgument("description", description);
+        req.addArgument("gameId", Integer.toString(id));
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    }
 
 }
