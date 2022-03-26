@@ -41,33 +41,18 @@ public class ProductEditForm extends Form {
         TextField tfDes = new TextField("", "Product Description");
         TextField tfPrice = new TextField("", "Price");
         TextField tfQuantityStocked = new TextField("", "Quantity in stock");
-//combo 
 
-        List<Categories> category = new ArrayList();
-        category = ServiceCategories.getInstance().getAllCategories();
 
-        Label CategoryLabel = new Label("Category");
-
-        ComboBox categoryBox = new ComboBox();
-
-        for (int i = 0; i < category.size(); i++) {
-            Categories c = category.get(i);
-            categoryBox.addItem(c.getId() + "," + c.getNameCategory());
-        }
-        // System.out.println(categoryBox.getSelectedItem().toString());
+      
 
         tfName.setText(product.getNameProduct());
         tfPrice.setText(product.getPrice() + "");
         tfQuantityStocked.setText(product.getQuantityStocked() + "");
         tfDes.setText(product.getDescription());
 
-//fix this 
-        categoryBox.setSelectedItem(product.getCategoryId());
 
-        Container comboCtn = new Container(new BoxLayout(BoxLayout.X_AXIS));
-        comboCtn.addAll(CategoryLabel, categoryBox);
 
-        Button btnSubmit = new Button("Submit");
+        Button btnSubmit = new Button("Edit Product");
 
         btnSubmit.addActionListener(
                 new ActionListener() {
@@ -78,18 +63,19 @@ public class ProductEditForm extends Form {
                     Dialog.show("Alert", "please fill all the Fields", new Command("ok"));
                 } else {
 
-                    Products c = new Products();
-                    String catId = categoryBox.getSelectedItem().toString();
+                  
+                    //String catId = categoryBox.getSelectedItem().toString();
                  
-                    StringTokenizer st = new StringTokenizer(catId, ",");
+                    //StringTokenizer st = new StringTokenizer(catId, ",");
 
-                    c.setCategoryId(Integer.parseInt(st.nextToken()));
-                    c.setDescription(tfDes.getText());
-                    c.setNameProduct(tfName.getText());
-                    c.setPrice(Double.parseDouble(tfPrice.getText()));
-                    c.setQuantityStocked(Integer.parseInt(tfQuantityStocked.getText()));
+                    //c.setCategoryId(Integer.parseInt(st.nextToken()));
+                   
+                    product.setDescription(tfDes.getText());
+                    product.setNameProduct(tfName.getText());
+                    product.setPrice(Double.parseDouble(tfPrice.getText()));
+                    product.setQuantityStocked(Integer.parseInt(tfQuantityStocked.getText()));
 
-                    if (ServiceProducts.getInstance().addProduct(c)) {
+                    if (ServiceProducts.getInstance().EditProduct(product)) {
                         new ListProductsForm().show();
                     } else {
                         Dialog.show("erreur", "connection Failed", new Command("ok"));
@@ -101,7 +87,7 @@ public class ProductEditForm extends Form {
 
         }
         );
-        addAll(tfName, tfDes, tfPrice, tfQuantityStocked, comboCtn, btnSubmit);
+        addAll(tfName, tfDes, tfPrice, tfQuantityStocked, btnSubmit);
 
     }
 

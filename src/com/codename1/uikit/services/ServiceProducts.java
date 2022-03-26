@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -56,7 +57,14 @@ public class ServiceProducts {
             for (Map<String, Object> obj : list) {
                 Products c = new Products();
                 int id = (int) Float.parseFloat(obj.get("id").toString());
-                //int categoryId = (int) Float.parseFloat(obj.get("categoryId").toString());
+
+                String categoryItem1 = obj.get("category").toString();
+                StringTokenizer st = new StringTokenizer(categoryItem1, ",");
+                StringTokenizer st2 = new StringTokenizer(st.nextToken(), ":");
+                StringTokenizer st3 = new StringTokenizer(st2.nextToken(), "=");
+                st3.nextToken();
+                //System.out.println(st3.nextToken());
+                int categoryId = (int) Float.parseFloat(st3.nextToken());
                 int quantityStocked = (int) Float.parseFloat(obj.get("quantityStocked").toString());
                 String nameProduct = obj.get("nameProduct").toString();
                 String image = obj.get("image").toString();
@@ -67,7 +75,7 @@ public class ServiceProducts {
                 c.setDescription(Description);
                 c.setImage(image);
                 c.setNameProduct(nameProduct);
-                // c.setCategoryId(categoryId);
+                c.setCategoryId(categoryId);
                 c.setPrice(price);
                 c.setQuantityStocked(quantityStocked);
                 ProductsList.add(c);
@@ -107,8 +115,8 @@ public class ServiceProducts {
 
     public Boolean addProduct(Products c) {
 
-        String url = Statics.BASE_URL + "/api/createProduct?nameProduct=" + c.getNameProduct()+ "&description=" + c.getDescription() +
-        "&image=" + c.getImage()+ "&categoryId=" + c.getCategoryId()+ "&price=" + c.getPrice()+ "&quantityStocked=" + c.getQuantityStocked();
+        String url = Statics.BASE_URL + "/api/createProduct?nameProduct=" + c.getNameProduct() + "&description=" + c.getDescription()
+                + "&image=" + c.getImage() + "&categoryId=" + c.getCategoryId() + "&price=" + c.getPrice() + "&quantityStocked=" + c.getQuantityStocked();
         req.setUrl(url);
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -120,6 +128,26 @@ public class ServiceProducts {
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
         ToastBar.showMessage(" product is added", FontImage.MATERIAL_ACCESS_TIME);
+
+        return resultOK;
+
+    }
+
+    public Boolean EditProduct(Products c) {
+        System.out.println("this :"+c);
+        String url = Statics.BASE_URL + "/api/updateProduct/" + c.getId() + "?nameProduct=" + c.getNameProduct() + "&description=" + c.getDescription()
+                + "&image=" + c.getImage() + "&price=" + c.getPrice() + "&quantityStocked=" + c.getQuantityStocked();
+        req.setUrl(url);
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        ToastBar.showMessage(" product is updated", FontImage.MATERIAL_ACCESS_TIME);
 
         return resultOK;
 

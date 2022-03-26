@@ -40,6 +40,7 @@ public class ListProductsForm extends BaseForm{
         product = ServiceProducts.getInstance().getAllProducts();
 
         for (int i = 0; i < product.size(); i++) {
+              //System.out.println(product.get(i));
             this.add(listOfProducts(product.get(i)));
         }
 
@@ -53,8 +54,6 @@ public class ListProductsForm extends BaseForm{
 
             Label lbNameProduct = new Label();
             Label lbPrice = new Label();
-
-        
 
             lbNameProduct.setText(c.getNameProduct().toLowerCase());
             lbPrice.setText(c.getPrice()+"");

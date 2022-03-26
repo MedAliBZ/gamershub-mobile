@@ -97,14 +97,8 @@ public class AddProductForm extends Form {
                 } else {
 
                     Products c = new Products();
-                    // c.setCategoryId(Integer.parseInt(tfCatID.getText()));
                     String catId = categoryBox.getSelectedItem().toString();
-                    //int catId1=Integer.parseInt(catId.split(",",0));
-
-                    //System.out.println(catId.split(","));
                     StringTokenizer st = new StringTokenizer(catId,",");
-
-                    //System.out.println(st.nextToken());
 
                     c.setCategoryId(Integer.parseInt(st.nextToken()));
                     c.setDescription(tfDes.getText());

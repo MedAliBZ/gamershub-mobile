@@ -38,6 +38,7 @@ import java.io.IOException;
 public class ProductForm extends Form {
 
     private Products product;
+ 
 
     public ProductForm(Products product, Form previous) {
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
@@ -47,11 +48,12 @@ public class ProductForm extends Form {
         //System.out.println("this is the detail category"+category);
 
         this.product = product;
+       
         if (MyApplication.loggedUser.isIsAdmin()) {
 
             getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_EDIT, e -> {
-                //Form editForm = new ProductEditForm(this.product, this);
-                // editForm.show();
+                Form editForm = new ProductEditForm(this.product, this);
+                editForm.show();
             });
             getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_DELETE, e -> {
                 ServiceProducts.getInstance().deleteProduct(this.product.getId());
@@ -59,10 +61,10 @@ public class ProductForm extends Form {
             });
         }
         try {
+            //System.out.println(product);
             EncodedImage spinner = EncodedImage.create("/spinner.png");
             Container imageContainer = new Container(BoxLayout.xCenter());
             Container descriptionContainer = new Container(BoxLayout.xCenter());
-            //String pic =product.getImage().substring(0,product.getImage().length()-1);
             String url = Statics.BASE_URL + "/shop/images/" + product.getImage();
             Image gameImage = URLImage.createToStorage(spinner, url, url, URLImage.RESIZE_SCALE);
 
@@ -72,7 +74,7 @@ public class ProductForm extends Form {
 
             TextArea descriptionTA = new TextArea(product.getDescription());
             TextArea tfName = new TextArea(product.getNameProduct());
-          
+            //Categories c = ServiceCategories.getInstance().getCategoryById(product.getCategoryId());
             TextArea tfCatID = new TextArea(product.getCategoryId()+"");
             TextArea tfPrice = new TextArea(product.getPrice() + "");
             TextArea tfQuantityStocked = new TextArea(product.getQuantityStocked() + "");
@@ -105,7 +107,7 @@ public class ProductForm extends Form {
             descriptionContainer.add(descriptionTA);
             imageContainer.add(image);
 
-            this.addAll(imageContainer, descriptionContainer,tfName,tfCatID,tfPrice,tfQuantityStocked);
+            this.addAll(imageContainer, descriptionContainer, tfName, tfCatID, tfPrice, tfQuantityStocked);
         } catch (IOException e) {
             System.err.println(e);
         }

@@ -109,38 +109,38 @@ public class ServiceCategories {
 
     }
 
-    public Categories getCategoryById(int id) {
-
-        String url = Statics.BASE_URL + "/api/getCategoryById/" + id;
-        req.setUrl(url);
-        category = new Categories();
-
-        req.addResponseListener(new ActionListener<NetworkEvent>() {
-            public void actionPerformed(NetworkEvent evt) {
-                JSONParser json = new JSONParser();
-
-                try {
-                    String data = new String(req.getResponseData());
-                    System.out.println("data: " + data);
-
-                    Map<String, Object> obj = json.parseJSON(new CharArrayReader(new String(data).toCharArray()));
-
-                    category.setId(id);
-                    category.setNameCategory(obj.get("nameCategory").toString());
-                    category.setDescription(obj.get("Description").toString());
-                    category.setImage(obj.get("image").toString());
-                    // System.out.println("category in service: " + category);
-
-                } catch (IOException ex) {
-                    System.out.println("" + ex.getMessage());
-                }
-
-            }
-        });
-        NetworkManager.getInstance().addToQueueAndWait(req);
-        //System.out.println("category in service before returning: " + category);
-        return category;
-    }
+//    public Categories getCategoryById(int id) {
+//
+//        String url = Statics.BASE_URL + "/api/getCategoryById/" + id;
+//        req.setUrl(url);
+//        category = new Categories();
+//
+//        req.addResponseListener(new ActionListener<NetworkEvent>() {
+//            public void actionPerformed(NetworkEvent evt) {
+//                JSONParser json = new JSONParser();
+//
+//                try {
+//                    String data = new String(req.getResponseData());
+//                    System.out.println("data: " + data);
+//
+//                    Map<String, Object> obj = json.parseJSON(new CharArrayReader(new String(data).toCharArray()));
+//
+//                    category.setId(id);
+//                    category.setNameCategory(obj.get("nameCategory").toString());
+//                    category.setDescription(obj.get("Description").toString());
+//                    category.setImage(obj.get("image").toString());
+//                    // System.out.println("category in service: " + category);
+//
+//                } catch (IOException ex) {
+//                    System.out.println("" + ex.getMessage());
+//                }
+//
+//            }
+//        });
+//        NetworkManager.getInstance().addToQueueAndWait(req);
+//        //System.out.println("category in service before returning: " + category);
+//        return category;
+//    }
 
     public void deleteCategory(int id) {
         String url = Statics.BASE_URL + "/api/deleteCategory/" + id;

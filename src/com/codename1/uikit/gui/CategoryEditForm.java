@@ -37,7 +37,7 @@ public class CategoryEditForm extends Form {
 
     public CategoryEditForm(Categories category, Form previous) {
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
-        this.getToolbar().setTitle("Edit Category");
+        this.getToolbar().setTitle("Category info");
         this.setLayout(BoxLayout.y());
         this.setUIID("Activate");
         //System.out.println("this is the detail category"+category);
@@ -74,7 +74,7 @@ public class CategoryEditForm extends Form {
             FromContainer.addAll(NameContainer, descriptionContainer);
             imageContainer.add(image);
 
-            Button EditBt = new Button("Category info");
+            Button EditBt = new Button("Edit Category");
 
             EditBt.addActionListener(
                     new ActionListener() {
