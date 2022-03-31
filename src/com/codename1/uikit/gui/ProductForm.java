@@ -23,10 +23,9 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.uikit.MyApplication;
-import com.codename1.uikit.entities.Categories;
+import com.codename1.uikit.entities.Cart;
 import com.codename1.uikit.entities.Products;
-import com.codename1.uikit.services.ServiceCategories;
-import com.codename1.uikit.services.ServiceGames;
+import com.codename1.uikit.services.ServiceCart;
 import com.codename1.uikit.services.ServiceProducts;
 import com.codename1.uikit.utils.Statics;
 import java.io.IOException;
@@ -106,8 +105,26 @@ public class ProductForm extends Form {
 
             descriptionContainer.add(descriptionTA);
             imageContainer.add(image);
+            Button btnCart = new Button("Add to Cart");
+             btnCart.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                     Cart cart = new Cart();
+                         cart.setProduct(product);
+                    if (ServiceCart.getInstance().addCart(cart)) {
+                        
+                    } else {
+                        Dialog.show("erreur", "connection Failed", new Command("ok"));
 
-            this.addAll(imageContainer, descriptionContainer, tfName, tfCatID, tfPrice, tfQuantityStocked);
+                    }
+
+                }
+            }
+
+        
+        );
+            this.addAll(imageContainer, descriptionContainer, tfName, tfCatID, tfPrice, tfQuantityStocked,btnCart);
         } catch (IOException e) {
             System.err.println(e);
         }

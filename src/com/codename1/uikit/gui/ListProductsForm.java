@@ -25,27 +25,36 @@ import com.codename1.uikit.utils.Statics;
  *
  * @author meriam
  */
-public class ListProductsForm extends BaseForm{
-      public ListProductsForm() {
+public class ListProductsForm extends BaseForm {
+
+    public ListProductsForm() {
         super.addSideMenu();
         setTitle("Products List");
         setUIID("Activate");
-            getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
-           
-                   Form addForm = new AddProductForm(this);
-                   addForm.show();
+
+        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_SHOPPING_CART, e -> {
+
+            Form cartsForm = new ListCartsForm(this);
+            cartsForm.show();
+        });
+
+        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
+
+            Form addForm = new AddProductForm(this);
+            addForm.show();
         });
 
         List<Products> product = new ArrayList();
         product = ServiceProducts.getInstance().getAllProducts();
 
         for (int i = 0; i < product.size(); i++) {
-              //System.out.println(product.get(i));
+            //System.out.println(product.get(i));
             this.add(listOfProducts(product.get(i)));
         }
 
     }
-     public Container listOfProducts(Products c) {
+
+    public Container listOfProducts(Products c) {
         Container ctn = new Container(BoxLayout.x());
         Container ctnCat = new Container(BoxLayout.y());
         Container ctninfo = new Container(BoxLayout.y());
@@ -56,7 +65,7 @@ public class ListProductsForm extends BaseForm{
             Label lbPrice = new Label();
 
             lbNameProduct.setText(c.getNameProduct().toLowerCase());
-            lbPrice.setText(c.getPrice()+"");
+            lbPrice.setText(c.getPrice() + "");
 
             ctninfo.addAll(lbNameProduct, lbPrice);
             //img loading
@@ -65,20 +74,18 @@ public class ListProductsForm extends BaseForm{
             EncodedImage enc;
             try {
                 enc = EncodedImage.create("/spinner.png");
-               //String pic =c.getImage().substring(0,c.getImage().length()-1);
-                String url = Statics​.BASE_URL + "/shop/images/"+c.getImage() ;
+                //String pic =c.getImage().substring(0,c.getImage().length()-1);
+                String url = Statics​.BASE_URL + "/shop/images/" + c.getImage();
 
                 //System.out.println(url);
                 img = URLImage.createToStorage(enc, url, url, URLImage.RESIZE_SCALE);
 
                 imgv = new ImageViewer(img);
 
-        
-                    imgv.addPointerReleasedListener((evnt) -> {
-                        Form details = new ProductForm(c, this);
-                        details.show();
-                    });
-                
+                imgv.addPointerReleasedListener((evnt) -> {
+                    Form details = new ProductForm(c, this);
+                    details.show();
+                });
 
                 ctn.addAll(imgv, ctninfo);
 

@@ -62,13 +62,6 @@ public class ProductEditForm extends Form {
                         || (tfPrice.getText().length() == 0) || (tfQuantityStocked.getText().length() == 0)) {
                     Dialog.show("Alert", "please fill all the Fields", new Command("ok"));
                 } else {
-
-                  
-                    //String catId = categoryBox.getSelectedItem().toString();
-                 
-                    //StringTokenizer st = new StringTokenizer(catId, ",");
-
-                    //c.setCategoryId(Integer.parseInt(st.nextToken()));
                    
                     product.setDescription(tfDes.getText());
                     product.setNameProduct(tfName.getText());

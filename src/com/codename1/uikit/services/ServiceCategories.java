@@ -151,7 +151,7 @@ public class ServiceCategories {
     }
 
     public Boolean updateCategory(Categories c) {
-        String url = Statics.BASE_URL + "/api/updateCategory/" + c.getId() + "?nameCategory=" + c.getNameCategory() + "&Description=" + c.getDescription() + "&image=" + c.getImage();;
+        String url = Statics.BASE_URL + "/api/updateCategory/" + c.getId() + "?nameCategory=" + c.getNameCategory() + "&Description=" + c.getDescription() + "&image=" + c.getImage();
         req.setUrl(url);
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {
