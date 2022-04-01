@@ -5,12 +5,14 @@
 package com.codename1.uikit.gui;
 
 import com.codename1.components.ImageViewer;
+import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.uikit.entities.Game;
 import com.codename1.uikit.services.ServiceGames;
@@ -18,6 +20,7 @@ import com.codename1.uikit.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
 import com.codename1.ui.URLImage;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.uikit.MyApplication;
 
 /**
@@ -38,10 +41,30 @@ public class ListGamesForm extends BaseForm {
         }
         setTitle("Games List");
         setUIID("Activate");
+        this.setScrollable(false);
+        this.setLayout(new BorderLayout());
+        TextField searchBar = new TextField("", "Search");
+        Button searchBtn = new Button("", FontImage.MATERIAL_SEARCH, "Link");
+        Container searchCtn = new Container(BoxLayout.x());
+        searchCtn.addAll(searchBar, searchBtn);
+        this.add(BorderLayout.NORTH, searchCtn);
         ArrayList<Game> gamesList = ServiceGames.getInstance().getAllGames();
+        Container gamesCtn = new Container();
+        gamesCtn.setScrollableY(true);
+        searchBar.addActionListener(e -> {
+            gamesCtn.removeAll();
+            for (Game g : gamesList) {
+                if (g.getName().toLowerCase().contains(searchBar.getText().toLowerCase()) || searchBar.getText().equals("")) {
+                    gamesCtn.add(this.addGamesHolder(g));
+                    gamesCtn.add(createLineSeparator());
+                }
+            }
+        });
         for (Game g : gamesList) {
-            this.add(this.addGamesHolder(g));
+            gamesCtn.add(this.addGamesHolder(g));
+            gamesCtn.add(createLineSeparator());
         }
+        this.add(BorderLayout.CENTER, gamesCtn);
         //getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
     }
 
