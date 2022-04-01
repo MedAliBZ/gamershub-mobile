@@ -14,13 +14,13 @@ import java.util.Date;
 public class Sessioncoaching {
     private int id;
     private String username,description,coach;
-    private float prix;
-    private Date date_debut,date_fin;
+    private String prix;
+    private String date_debut,date_fin;
 
     public Sessioncoaching() {
     }
 
-    public Sessioncoaching(int id, String username, String description, String coach, float prix, Date date_debut, Date date_fin) {
+    public Sessioncoaching(int id, String username, String description, String coach, String prix, String date_debut, String date_fin) {
         this.id = id;
         this.username = username;
         this.description = description;
@@ -67,27 +67,27 @@ public class Sessioncoaching {
         this.coach = coach;
     }
 
-    public float getPrix() {
+    public String getPrix() {
         return prix;
     }
 
-    public void setPrix(float prix) {
+    public void setPrix(String prix) {
         this.prix = prix;
     }
 
-    public Date getDate_debut() {
+    public String getDate_debut() {
         return date_debut;
     }
 
-    public void setDate_debut(Date date_debut) {
+    public void setDate_debut(String date_debut) {
         this.date_debut = date_debut;
     }
 
-    public Date getDate_fin() {
+    public String getDate_fin() {
         return date_fin;
     }
 
-    public void setDate_fin(Date date_fin) {
+    public void setDate_fin(String date_fin) {
         this.date_fin = date_fin;
     }
     
