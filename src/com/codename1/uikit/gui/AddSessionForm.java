@@ -44,7 +44,7 @@ public class AddSessionForm extends Form{
             Container date_finContainer = new Container(BoxLayout.y());
             Container userContainer = new Container(BoxLayout.y());
             
-            TextArea prixTA = new TextArea("", 10,100);
+            TextArea prixTA = new TextArea("", 10);
             prixTA.setMaxSize(4);
             prixTA.getAllStyles().setAlignment(TextArea.CENTER);
 
@@ -56,11 +56,15 @@ public class AddSessionForm extends Form{
             titleTA.setEditable(false);
             titleTA.setUIID("Label");
             
-            PickerComponent date_debutTA = PickerComponent.createDate(new Date());
-            PickerComponent date_finTA = PickerComponent.createDate(new Date());
+            
+            
+            Picker date_debutTA = new Picker();
+            Picker date_finTA = new Picker();
+            
             
             ComboBox<String> usernameCB = new ComboBox<>();
             ArrayList<User> UsersList = ServiceUser.getInstance().getAllUsers();
+            
             for (User g : UsersList) {
                 usernameCB.addItem(g.getUsername());
             }
@@ -70,13 +74,20 @@ public class AddSessionForm extends Form{
             userContainer.addAll(new Label("User"),usernameCB);
 
             Button submitBtn = new Button("Submit");
+            
+            SimpleDateFormat dateD = new SimpleDateFormat();
+            SimpleDateFormat dateF = new SimpleDateFormat();
 
             descriptionContainer.addAll(new Label("Description"), descriptionTA);
             titleContainer.addAll(new Label("Coach : "), titleTA);
-            this.addAll(titleContainer, descriptionContainer, userContainer,date_debutContainer,date_finContainer, submitBtn);
+            date_debutContainer.addAll(new Label("Start Date: "), date_debutTA);
+            date_finContainer.addAll(new Label("End Date: "), date_finTA);
+            prixContainer.addAll(new Label("Price: "), prixTA);
+            
+            this.addAll(titleContainer, descriptionContainer, userContainer,date_debutContainer,date_finContainer,prixContainer, submitBtn);
             submitBtn.addActionListener(e->{
-                ServiceSessions.getInstance().updateSession(descriptionTA.getText(), usernameCB.getSelectedItem(), date_debutTA.getSelectCommandText(), date_finTA.getSelectCommandText(), prixTA.getText());
-                new ListCoachsForm().show();
+                 ServiceSessions.getInstance().updateSession(descriptionTA.getText(), usernameCB.getSelectedItem(), dateD.format(date_debutTA.getDate()), dateF.format(date_finTA.getDate()), prixTA.getText(),this.session.getId());
+                new ListSessionsForm().show();
             });
 
         } else {

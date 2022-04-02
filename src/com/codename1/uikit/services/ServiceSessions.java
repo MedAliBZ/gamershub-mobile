@@ -132,7 +132,7 @@ public class ServiceSessions {
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
     
-    public void updateSession(String description,String username, String date_debut, String date_fin, String prix) {
+    public void updateSession(String description,String username, String date_debut, String date_fin, String prix,int id) {
         String url = Statics.BASE_URL + "/api/session/update";
         req.removeAllArguments();
         req.setUrl(url);
@@ -140,10 +140,10 @@ public class ServiceSessions {
         req.setHttpMethod("POST");
         req.addArgument("username",username );
         req.addArgument("description", description);
-        req.addArgument("coachname",MyApplication.loggedUser.getUsername());
         req.addArgument("date_debut",date_debut);
         req.addArgument("date_fin",date_fin );
         req.addArgument("prix",prix);
+        req.addArgument("id",Integer.toString(id));
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
     

@@ -120,7 +120,7 @@ public class ServiceMatch {
     }
 
     public Boolean updateMatch(Matchs c) {
-        String url = Statics.BASE_URL + "/api/matchs/updatematch/{id}" + c.getId() + "?matchname=" + c.getMatchName() + "&result=" + c.getResult();;
+        String url = Statics.BASE_URL + "/api/matchs/updatematch/" + c.getId() + "?MatchName=" + c.getMatchName() + "&result=" + c.getResult();
         req.setUrl(url);
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {

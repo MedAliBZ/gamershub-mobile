@@ -136,7 +136,7 @@ public class ServiceTeam {
     }
 
     public Boolean updateTeam(Teams c) {
-        String url = Statics.BASE_URL + "/api/teams/updateteam/{id}" + c.getId() + "?TeamName=" + c.getTeamName() + "&GamersNb=" + c.getGamersNb() + "&rank=" + c.getRank()+"&image="+c.getImage();
+        String url = Statics.BASE_URL + "/api/teams/updateteam/" + c.getId() + "?TeamName=" + c.getTeamName() + "&rank=" + c.getRank();
         req.setUrl(url);
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {

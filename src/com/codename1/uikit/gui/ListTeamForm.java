@@ -9,15 +9,10 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.URLImage;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.uikit.MyApplication;
 import com.codename1.uikit.entities.Teams;
-import com.codename1.uikit.services.ServiceMatch;
 import com.codename1.uikit.services.ServiceTeam;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import com.codename1.uikit.utils.Statics;
 
@@ -36,10 +31,9 @@ public class ListTeamForm extends BaseForm {
         setTitle("Team List");
         setUIID("Activate");
         setLayout(BoxLayout.y());
-            getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
-           
-                   Form addForm = new TeamForm(this);
-                   addForm.show();
+        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
+            Form addForm = new TeamForm(this);
+            addForm.show();
         });
 
         List<Teams> teams = ServiceTeam.getInstance().getAllTeams();
@@ -47,18 +41,22 @@ public class ListTeamForm extends BaseForm {
 //System.out.println(Teams.sizse());
         for (Teams t : teams) {
             this.add(listOfTeams(t));
-            Button deleteBtn = new Button("delete");
-            deleteBtn.addActionListener(e->{ 
-            ServiceTeam.getInstance().deleteTeam(t.getId());
-            ListTeamForm li = new ListTeamForm();
-            li.show();
+            Button deleteBtn = new Button("Delete");
+            Button updateBtn = new Button("Update");
+            updateBtn.addActionListener(e -> {
+                ServiceTeam.getInstance().updateTeam(t);
+                TeamEditForm li = new TeamEditForm(t, this);
+                li.show();
             });
-        this.add(deleteBtn);
+            deleteBtn.addActionListener(e -> {
+                ServiceTeam.getInstance().deleteTeam(t.getId());
+                ListTeamForm li = new ListTeamForm();
+                li.show();
+            });
+            this.addAll(updateBtn,deleteBtn);
         }
 
     }
-
-  
 
     public Container listOfTeams(Teams c) {
         try {
