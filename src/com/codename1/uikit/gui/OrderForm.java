@@ -64,7 +64,7 @@ public class OrderForm extends Form {
 //            img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
 //            ctn.setHeight(Display.getInstance().getDisplayHeight() / 3);
 
-            imgv = new ImageViewer(img.scaled(500, 500));
+            imgv = new ImageViewer(img);
 
             ctn.addAll(imageLabel, imgv);
 
