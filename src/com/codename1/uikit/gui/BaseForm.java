@@ -85,10 +85,12 @@ public class BaseForm extends Form {
         tb.addMaterialCommandToSideMenu("Games", FontImage.MATERIAL_SPORTS_ESPORTS, e -> new ListGamesForm().show());
         tb.addMaterialCommandToSideMenu("Categories", FontImage.MATERIAL_CATEGORY, e -> new ListCategoriesForm().show());
         tb.addMaterialCommandToSideMenu("Products", FontImage.MATERIAL_SHOPPING_BAG, e -> new ListProductsForm().show());
+        tb.addMaterialCommandToSideMenu("Players", FontImage.MATERIAL_SPORTS_ESPORTS, e -> new BecomePlayerForm().show());
         tb.addMaterialCommandToSideMenu("Coachs", FontImage.MATERIAL_SPORTS, e -> new ListCoachsForm().show());
         tb.addMaterialCommandToSideMenu("Coaching Sessions", FontImage.MATERIAL_MEETING_ROOM, e -> new ListSessionsForm().show());
         tb.addMaterialCommandToSideMenu("Teams", FontImage.MATERIAL_PEOPLE, e -> new ListTeamForm().show());
         tb.addMaterialCommandToSideMenu("Matchs", FontImage.MATERIAL_VIDEOGAME_ASSET, e -> new ListMatchForm().show());
+        tb.addMaterialCommandToSideMenu("Forum", FontImage.MATERIAL_FORUM, e -> new ListBlogForm().show());
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm().show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
             MyApplication.loggedUser = new User();
