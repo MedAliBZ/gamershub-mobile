@@ -88,6 +88,8 @@ public class BaseForm extends Form {
         tb.addMaterialCommandToSideMenu("Players", FontImage.MATERIAL_SPORTS_ESPORTS, e -> new BecomePlayerForm().show());
         tb.addMaterialCommandToSideMenu("Coachs", FontImage.MATERIAL_SPORTS, e -> new ListCoachsForm().show());
         tb.addMaterialCommandToSideMenu("Coaching Sessions", FontImage.MATERIAL_MEETING_ROOM, e -> new ListSessionsForm().show());
+        tb.addMaterialCommandToSideMenu("Tournaments", FontImage.MATERIAL_SPORTS_SCORE, e -> new ListTournamentsForm().show());
+        tb.addMaterialCommandToSideMenu("Rewards", FontImage.MATERIAL_TASK_ALT, e -> new ListRewardsForm().show());
         tb.addMaterialCommandToSideMenu("Teams", FontImage.MATERIAL_PEOPLE, e -> new ListTeamForm().show());
         tb.addMaterialCommandToSideMenu("Matchs", FontImage.MATERIAL_VIDEOGAME_ASSET, e -> new ListMatchForm().show());
         tb.addMaterialCommandToSideMenu("Forum", FontImage.MATERIAL_FORUM, e -> new ListBlogForm().show());
